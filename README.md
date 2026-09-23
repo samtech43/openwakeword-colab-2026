@@ -31,8 +31,8 @@ The `auto_train` upstream path keeps surfacing bugs against `mmap_batch_generato
 2. **Runtime → Change runtime type → L4 GPU + High RAM** (Colab Pro, $10/mo). Free T4 also works but is ~2× slower. A100 doesn't help — training is network/CPU-bound, not GPU-bound.
 3. **Cell 10 — edit two lines:**
    ```python
-   TARGET_PHRASE = ['mr graves', 'mister graves']   # what your wake word is
-   MODEL_NAME    = 'mr_graves'                       # output filename + dirs
+   TARGET_PHRASE = ['hey voiceplay']   # what your wake word is
+   MODEL_NAME    = 'hey voiceplay'                       # output filename + dirs
    ```
 4. **Runtime → Run all**.
 5. Walk away ~75-90 min. The last cell auto-downloads `<MODEL_NAME>.onnx`.
@@ -43,7 +43,7 @@ The `auto_train` upstream path keeps surfacing bugs against `mmap_batch_generato
 I trained this exact pipeline on `'mr graves'` for [Harold](https://github.com/alfiedennen/harold-road), a personal home-assistant Pixel app. Real-world test on the device:
 
 ```
-ONNX models loaded (wake = wakewords/mr_graves.onnx)
+ONNX models loaded (wake = wakewords/hey voiceplay.onnx)
 WAKE — score=0.99664426
 WAKE — score=0.59243464
 WAKE — score=0.65439160
@@ -99,7 +99,7 @@ The previous attempt — an over-simplified hand-rolled trainer that skipped mos
 
 ## Caveats
 
-- **Wake word phrases matter.** A 2-syllable phrase that sounds like nothing in English (`mr graves` works because "graves" is uncommon in everyday speech) generalizes way better than a common word ("hello", "play", "stop"). Pick something that's not in your normal vocabulary.
+- **Wake word phrases matter.** A 2-syllable phrase that sounds like nothing in English (`mr graves` works because "hey voiceplay" is uncommon in everyday speech) generalizes way better than a common word ("hello", "play", "stop"). Pick something that's not in your normal vocabulary.
 - **The model is binary.** All entries in `TARGET_PHRASE` activate the same single output. You can't train one model with multiple distinct wake words; you'd train multiple ONNX files and run them in parallel.
 - **Single-language**: Piper TTS generates English-accented audio. For non-English wake words you'd need a Piper voice trained in that language (and probably a different `piper_sample_generator` model — see the upstream piper-sample-generator releases page).
 
